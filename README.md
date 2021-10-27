@@ -9,7 +9,7 @@ User APIs
 - ExpressJS
 - MongoDB
 - JWT
-- Memurai (Redis for Windows alternative)
+- Redis
 
 *APIs*
 - POST : /auth/signup (require body parameters: userName, accountNumber, emailAddress, identityNumber, password)
