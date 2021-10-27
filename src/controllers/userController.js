@@ -1,14 +1,15 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-// const CacheService = require("../services/redis");
+const CacheService = require("../services/redis");
 
 class UserController {
   constructor() {
-    // this._cacheService = new CacheService();
-    // this.getUsers = this.getUsers.bind(this);
-    // this.addUser = this.addUser.bind(this);
-    // this.editUser = this.editUser.bind(this);
-    // this.deleteUser = this.deleteUser.bind(this);
+    this._cacheService = new CacheService();
+
+    this.getUsers = this.getUsers.bind(this);
+    this.addUser = this.addUser.bind(this);
+    this.editUser = this.editUser.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
   }
 
   async getUsers(req, res) {
@@ -20,14 +21,14 @@ class UserController {
     try {
       let users;
       if (Object.keys(query).length == 0) {
-        // users = await this._cacheService.get(`users`);
+        users = await this._cacheService.get(`users`);
       }
       return res.json({ status: "success", data: JSON.parse(users) });
     } catch (err) {
       User.find(query, { userName: 1, emailAddress: 1 }, async (err, users) => {
         if (err) return res.status(500).json({ status: "error", message: err });
         if (Object.keys(query).length == 0) {
-          // await this._cacheService.set(`users`, JSON.stringify(users));
+          await this._cacheService.set(`users`, JSON.stringify(users));
         }
         return res.json({ status: "success", data: users });
       });
@@ -53,7 +54,7 @@ class UserController {
     user.save(async (err, user) => {
       if (err) return res.status(400).send({ message: err });
       const { password, ...dataUser } = user.toJSON();
-      // await this._cacheService.delete(`users`);
+      await this._cacheService.delete(`users`);
       return res.status(201).json({
         status: "success",
         message: "User added successfully",
@@ -90,7 +91,7 @@ class UserController {
           if (err)
             return res.status(400).json({ status: "error", message: err });
           const { password, ...dataUser } = user.toJSON();
-          // await this._cacheService.delete(`users`);
+          await this._cacheService.delete(`users`);
           return res.json({
             status: "success",
             message: "User updated successfully",
@@ -107,7 +108,7 @@ class UserController {
         return res
           .status(400)
           .json({ status: "error", message: "User not found" });
-      // await this._cacheService.delete(`users`);
+      await this._cacheService.delete(`users`);
       res.json({
         status: "success",
         message: "User deleted successfully",

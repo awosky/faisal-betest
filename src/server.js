@@ -10,7 +10,11 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.get("/", (_, res) => res.send("Welcome!"));
+app.get("/", (_, res) =>
+  res.send(
+    "Welcome! see the github for detail documentation : https://github.com/awosky/faisal-betest "
+  )
+);
 app.use(
   "/auth",
   [authMiddleware.checkDuplicate],
