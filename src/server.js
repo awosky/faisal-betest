@@ -11,11 +11,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.get("/", (_, res) => res.send("Welcome!"));
-app.use(
-  "/auth",
-  [authMiddleware.checkDuplicate],
-  require("./routes/authRoute")
-);
+app.use("/auth", require("./routes/authRoute"));
 app.use(
   "/user",
   [authMiddleware.verifyAccessToken],
