@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.get("/", (_, res) =>
   res.send(
-    "Welcome! see the github for detail documentation : https://github.com/awosky/faisal-betest "
+    "Welcome! see my <a href='https://github.com/awosky/faisal-betest'>Github</a> for detail documentation "
   )
 );
 app.use("/auth", require("./routes/authRoute"));
