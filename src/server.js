@@ -15,11 +15,7 @@ app.get("/", (_, res) =>
     "Welcome! see the github for detail documentation : https://github.com/awosky/faisal-betest "
   )
 );
-app.use(
-  "/auth",
-  [authMiddleware.checkDuplicate],
-  require("./routes/authRoute")
-);
+app.use("/auth", require("./routes/authRoute"));
 app.use(
   "/user",
   [authMiddleware.verifyAccessToken],

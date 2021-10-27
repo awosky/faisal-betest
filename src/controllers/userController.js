@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const CacheService = require("../services/redis");
-
+const { checkDuplicate } = require("../middlewares/authMiddleware");
 class UserController {
   constructor() {
     this._cacheService = new CacheService();
@@ -46,7 +46,8 @@ class UserController {
     });
   }
 
-  addUser(req, res, next) {
+  addUser(req, res) {
+    checkDuplicate(req, res);
     let user = new User({
       ...req.body,
       password: bcrypt.hashSync(req.body.password, 10),

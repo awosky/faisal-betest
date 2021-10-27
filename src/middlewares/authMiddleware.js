@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
-exports.checkDuplicate = (req, res, next) => {
+exports.checkDuplicate = (req, res) => {
   User.findOne({ emailAddress: req.body.emailAddress }, (err, user) => {
     if (err) {
       return res.status(500).send({ message: err });
@@ -11,7 +11,6 @@ exports.checkDuplicate = (req, res, next) => {
         .status(409)
         .send({ message: "Failed! Email Address is already in use!" });
     }
-    next();
   });
 };
 
