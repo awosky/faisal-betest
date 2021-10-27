@@ -1,7 +1,7 @@
 User APIs 
 --
 
-*Link* (on working)
+*Link*
 - https://ms-faisal-betest.herokuapp.com/ 
 
 *Tech*
